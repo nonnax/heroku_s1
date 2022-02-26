@@ -14,14 +14,14 @@ maps = {
 maps.each do |k, v|
   map k do
     run lambda { |_env|
-          [
-            200,
-            {
-              'Content-Type' => 'text/html',
-              'Cache-Control' => 'public, max-age=86400'
-            },
-            File.open(v, File::RDONLY)
-          ]
-        }
+      [
+        200,
+        {
+          'Content-Type' => 'text/html',
+          'Cache-Control' => 'public, max-age=86400'
+        },
+        File.open(v, File::RDONLY)
+      ]
+    }
   end
 end
