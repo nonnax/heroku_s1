@@ -1,41 +1,27 @@
+# Id$ nonnax 2022-02-26 17:19:12 +0800
+# frozen_string_literal: true
+
 use Rack::Static,
-  :urls => ["/images", "/js", "/css"],
-  :root => "public"
-map '/' do
- run lambda{ |env|
-  [
-    200,
-    {
-      'Content-Type'  => 'text/html',
-      'Cache-Control' => 'public, max-age=86400'
-    },
-    File.open('public/index.html', File::RDONLY)
-  ]
-}
-end
+    urls: ['/images', '/js', '/css'],
+    root: 'public'
 
-map "/movies" do
-  run lambda { |env|
-  [
-    200, 
-    {
-      'Content-Type'  => 'text/html', 
-      'Cache-Control' => 'public, max-age=86400' 
-    },
-    File.open('public/movies.html', File::RDONLY)
-  ]
+maps = {
+  '/' => 'public/index.html',
+  '/movies' => 'public/movies.html',
+  '/tv' => 'public/tv.html'
 }
-end
 
-map "/tv" do
-  run lambda { |env|
-  [
-    200, 
-    {
-      'Content-Type'  => 'text/html', 
-      'Cache-Control' => 'public, max-age=86400' 
-    },
-    File.open('public/tv.html', File::RDONLY)
-  ]
-}
+maps.each do |k, v|
+  map k do
+    run lambda { |_env|
+          [
+            200,
+            {
+              'Content-Type' => 'text/html',
+              'Cache-Control' => 'public, max-age=86400'
+            },
+            File.open(v, File::RDONLY)
+          ]
+        }
+  end
 end
