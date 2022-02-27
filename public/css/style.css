@@ -1,0 +1,29 @@
+body{
+  color: yellow;  
+  background: #000000;
+  
+}
+div {
+  float: left; 
+  width:240px;
+  overflow: hidden; 
+  margin: 2px; 
+  padding: 2px; 
+}
+div img {
+  height: 240px; width:200px;
+}
+div a {
+  font-size: 10px; 
+  overflow: hidden; 
+  white-space:nowrap;
+  text-overflow: ellipsis;
+  line-height: 1em;  
+  color: silver;
+  text-decoration: none;
+}
+h4{ 
+  width: 98%; 
+  clear: left; 
+  display: block
+}
