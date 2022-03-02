@@ -5,23 +5,6 @@ use Rack::Static,
     urls: ['/images', '/js', '/css'],
     root: 'public'
 
-maps = {
-  '/' => 'public/index.html',
-  '/movies' => 'public/movies.html',
-  '/tv' => 'public/tv.html'
-}
+require_relative 'app'
 
-maps.each do |k, v|
-  map k do
-    run lambda { |_env|
-      [
-        200,
-        {
-          'Content-Type' => 'text/html',
-          'Cache-Control' => 'public, max-age=86400'
-        },
-        File.open(v, File::RDONLY)
-      ]
-    }
-  end
-end
+run App.new
