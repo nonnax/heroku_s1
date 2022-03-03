@@ -7,8 +7,7 @@ require_relative 'lib/router'
 class App
   def call(env)
     route = Route.new(env).route_name
-    status = route.match(/^\d+$/) || "200"
-    # response_body = View.new(route).render
+    status = route.match?(/^\d+$/) ? 404 : 200
     response_body = View.new(route, visit_count: parse_cookies(env)).render
 
     [status, {}, [response_body]]
