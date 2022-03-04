@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 use Rack::Static,
-    urls: ['/images', '/js', '/css'],
+    urls: %w[/images /js /css],
     root: 'public'
 
 require_relative 'app'
