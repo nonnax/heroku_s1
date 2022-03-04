@@ -11,11 +11,14 @@ body{
 
 .navbar div{ 
   font-weight: bold; 
-  font-size: 4em; 
-  padding: 50px; 
+  font-size: 3em; 
+  padding: 10px;
 }
 .navbar div a{
   text-decoration: none;
+  padding-left: 50px; 
+  padding-right: 50px; 
+  color: white;
 } 
 
 #content{
@@ -33,10 +36,12 @@ body{
 .item a{
   flex: 200px;
   text-decoration: none;
-  color: yellow;
+}
+.item:hover{
+  -moz-transform: scale(1.025);
 }
 
 .active{
-  background: cyan;
-  color: black;
+  background: blue;
+  color: white;
 }
