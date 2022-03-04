@@ -4,17 +4,15 @@ body{
 }
 .navbar{
   display: flex;
-  justify-content: flex-end; 
+  justify-content: center; 
   width: 100%;
   align-items: center;
-  /* align-content: center; */
-  height: 50px;
 }
 
 .navbar div{ 
   font-weight: bold; 
-  font-size: 2em; 
-  padding: 20px; 
+  font-size: 4em; 
+  padding: 50px; 
 }
 .navbar div a{
   text-decoration: none;
