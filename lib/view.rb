@@ -3,18 +3,17 @@
 class View
   def initialize(page, **data)
     @data = data
-    file = File.join(
-      File.dirname(__FILE__), 
-      "../public/views/#{page}.erb"
-    )
-    @template = File.read(file)
+    @template, @layout = [page, :layout].map do |f|      
+      File.expand_path("../public/views/#{f}.erb", __dir__ ).then{|f| File.read(f) }
+    end
   end
-
+  def _render(text)
+    ERB.new(text).result(binding)
+  end
+  def render
+    [@template, @layout].inject{|text, t | _render(t){text}}
+  end
   def visit_count
     @data[:visit_count]
-  end
-
-  def render
-    ERB.new(@template).result(binding)
   end
 end
