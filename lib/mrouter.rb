@@ -8,7 +8,7 @@ module Routes
   
   %i[GET POST].each do |v|
     define_method(v.downcase) do |pathrx, &block|
-      @@routes[pathrx]=block.call
+      @@routes[pathrx]=block
     end  
   end
 end
@@ -25,7 +25,7 @@ class App
     headers={'Content-type'=>'text/html'}
     route = Router.new(env).route
     if route
-      body = View.new(route, visit_count: parse_cookies(env)).render rescue nil
+      body = View.new(route.call, visit_count: parse_cookies(env)).render rescue nil
     end
     return [200, headers, [body]] if body
     [404, headers, ['Not Found']]
