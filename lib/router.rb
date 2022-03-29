@@ -1,19 +1,38 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-03-01 15:28:55 +0800
-class Route
-  ROUTES = {
-    "/movie" => :movie,
-    "/tv" => :tv,
-    "/" => :index
-  }
+require_relative 'view'
 
-  def initialize(env)
-    if env["REQUEST_METHOD"] == "GET"
-      @route_name = ROUTES[env["PATH_INFO"]]
+module Routes
+  module_function
+  @routes = {'GET'=>[], 'POST'=>[]}
+  def self.routes() @routes end
+end
+
+class Router
+  def call(env)
+    headers={'Content-type'=>'text/html; charset=utf-8'}
+    route = ::Routes.routes[env["REQUEST_METHOD"]]
+            .detect{|r| r[:path].match?(env["PATH_INFO"]) }
+    if route
+      body = View.new(route[:block], visit_count: parse_cookies(env)).render rescue nil
     end
+    return [200, headers, [body]] if body
+    [404, headers, ['Not Found']]
   end
 
-  def route_name
-    (@route_name || "404").to_s
+  def parse_cookies(env) Rack::Utils.parse_cookies(env)["session_count"]  end
+end
+
+#allow global access
+# include Routes
+
+module Kernel
+  def route(path, symbol) ::Routes.routes['GET']<<{path:, block: symbol.to_sym }  end
+  def routes() ::Routes.routes end
+
+  %i[GET POST].each do |v|
+    define_method(v.downcase) do |path, &block|
+      ::Routes.routes[v.to_s] << {path:, block: block.call}
+    end
   end
 end

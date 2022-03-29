@@ -1,0 +1,19 @@
+<html>
+  <head>
+  <title>index</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  </head>
+  <body>
+  <div id="header">
+    <p><a href="/"><img src="/images/banner.jpg" style="width:100%"></a></p>
+  </div>  
+  <div class="navbar">
+    <div><a href="/movie" class="active">movies</a></div>
+    <div><a href="/tv">tv-shows</a></div>
+  </div>
+  <div id="content">
+    <%= yield %>
+  </div>
+  
+  </body>
+</html>
