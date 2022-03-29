@@ -4,12 +4,9 @@ require_relative 'lib/router'
 
 class App<Router; end
 
-# get('/'){ :index }
-get('/movie'){ :movie }
-get('/tv'){ :tv }
-post('/tvs'){:tvs }
-
-# route GET paths
-route '/',       :index
+get  '/',      :index 
+get  '/movie', :movie 
+get  '/tv',    :tv 
+post '/tvs',   :tvs 
 
 p routes
