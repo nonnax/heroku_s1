@@ -9,16 +9,18 @@ module Routes
 end
 
 class Router
+  attr :req, :res
   def call(env)
+    @req=Rack::Request.new(env)
+    @res=Rack::Response.new
     headers={'Content-type'=>'text/html; charset=utf-8'}
     route = ::Routes.detect(env)
-    if route
-      body = View.render(route[:erb], visit_count: parse_cookies(env)) rescue nil
-      return [200, headers, [body]] if body
-    end
-    [404, headers, ['Not Found']]
+    puts route, visit_count: parse_cookies(env) if route
+    @res.status = 404 if @res.empty?
+    @res.finish
   end
   def parse_cookies(env) Rack::Utils.parse_cookies(env)["session_count"]  end
+  def puts(route, **data) res.write( ::View.render(route[:erb], **data) ) end
 end
 
 #global access

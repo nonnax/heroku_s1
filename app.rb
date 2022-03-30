@@ -8,6 +8,6 @@ class App < Router; end
 get  '/',      :index 
 get  '/movie', :movie 
 get  '/tv',    :tv 
-post '/tvs',   :tvs 
+post '/tvs',   :tv 
 
 puts JSON.pretty_generate routes
