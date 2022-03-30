@@ -5,20 +5,19 @@ require_relative 'view'
 module Routes
   @routes = {'GET'=>[], 'POST'=>[]}
   def self.routes() @routes end
+  def self.detect(env) @routes[env["REQUEST_METHOD"]].detect{|r| r[:path].match?(env["PATH_INFO"]) } end
 end
 
 class Router
   def call(env)
     headers={'Content-type'=>'text/html; charset=utf-8'}
-    route = ::Routes.routes[env["REQUEST_METHOD"]]
-            .detect{|r| r[:path].match?(env["PATH_INFO"]) }
+    route = ::Routes.detect(env)
     if route
-      body = View.new(route[:erb], visit_count: parse_cookies(env)).render rescue nil
+      body = View.render(route[:erb], visit_count: parse_cookies(env)) rescue nil
+      return [200, headers, [body]] if body
     end
-    return [200, headers, [body]] if body
     [404, headers, ['Not Found']]
   end
-
   def parse_cookies(env) Rack::Utils.parse_cookies(env)["session_count"]  end
 end
 
