@@ -1,13 +1,21 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-03-01 15:24:22 +0800
-require_relative 'lib/router'
-require 'json'
+require_relative 'lib/mapper'
+require 'yaml'
 
-class App < Router; end
+class App<Mapper;end
 
-get  '/',      :index 
-get  '/movie', :movie 
-get  '/tv',    :tv 
-post '/tvs',   :tv 
+file='map.yaml'
 
-puts JSON.pretty_generate routes
+unless File.exist?(file)
+  Map.get do
+    tv '/tv'
+    index '/'
+    movie '/movie'
+    movie '/mov' 
+  end
+  File.write file, Map.routes.to_yaml 
+else
+  puts 'loading map.yaml'
+  p Map.routes=YAML.load(File.read(file))
+end
